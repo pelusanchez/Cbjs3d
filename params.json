@@ -1,0 +1,6 @@
+{
+  "name": "Cbjs3d",
+  "tagline": "Cardboard javascript 3d library",
+  "body": "### Cardboard javascript 3d library\r\nThe Cardboard Javascript 3d Library is being developed to easy implementation of 3d images and others (like landscapes) in the web.\r\nThe current version is 0.1Alpha. New updates will be published soon.\r\n\r\n### Use:\r\nCreate a html basic webpage (with head, title and body ...). Create, style and name with a id a div where you want. Choose, for example, a landscape and add this to the head of the page:\r\n\r\n`<script languaje=\"JavaScript\" src=\"cbjs3d.js\"></script>\r\n<script languaje=\"JavaScript\">\r\nwindow.onload = function(){\r\n\tCbjs3d({\r\n\t\tdiv: \"divElement\",\r\n\t\ttype: \"landscape\",\r\n\t\timage: \"image.jpg\",\r\n\t\tview: 360\r\n\t});\r\n};\r\n</script>`\r\n\r\n\r\n### Documentation\r\nDocumentation will be done soon.\r\n\r\n### Authors and Contributors\r\nAuthor @pelusito\r\n\r\n### Support or Contact\r\nThis project is now being developed. It HAVE errors, optimization troubles, etc. If you want to say something about that, please contact me via [help](http:///) and I'll help you.",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
