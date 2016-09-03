@@ -4,6 +4,7 @@
 * CARD BOARD JAVA SCRIPT 3D LIBRARY
 * VERSION 0.1ALPHA
 *
+*	Copyright (c) David Iglesias <davidiglesanchez@gmail.com>
 * USAGE:
 *   Create and style a div element and add a onload function like this (for landscape image):
 *
