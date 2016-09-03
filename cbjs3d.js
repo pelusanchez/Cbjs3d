@@ -85,6 +85,15 @@ variable:  Cbjs3dutils.eventData
 Cbjs3dutils.eventData = {};
 
 /**
+variable:  Cbjs3dutils.fsTags
+
+	Use to store the fullScreen valid tags because differents web browsers
+	have differents function names.
+	
+*/
+Cbjs3dutils.fsTags = {};
+
+/**
 function: isAndroid
 
 	This function returns true if the device is an android
@@ -282,17 +291,50 @@ Cbjs3dutils.select = function(id){
 
 
 /**
+function: requestFS
+	This function request the fullscreen element. Returns false if
+	something is wrong.
+*/
+Cbjs3dutils.requestFS = function(elm){
+	try {
+		elm[Cbjs3dutils.fsTags.request]();
+		return true;
+	}catch(e){
+		return false;
+	}
+}
+
+
+/**
+function: isFS
+	This function returns true if is fullscreen.
+*/
+Cbjs3dutils.isFS = function(elm){
+	return (document[Cbjs3dutils.fsTags.element]!=null);
+}
+
+
+/**
+function: exitFS
+
+	This function exits the fullScreen
+*/
+Cbjs3dutils.exitFS = function(){
+	document[Cbjs3dutils.fsTags.exit]();
+}
+
+/**
 function: toggleFullscreen
 
 	This function toggle on or off the fullscreen.
 */
 Cbjs3dutils.toggleFullscreen= function(){
 
-	if(fullscreen.is()){
-		fullscreen.exit();
+	if(Cbjs3dutils.isFS()){
+		Cbjs3dutils.exitFS();
 	}else{
 		if(Cbjs3dutils.isLandscape()){
-			if(fullscreen.request(Cbjs3dutils.conf.divElm)){
+			if(Cbjs3dutils.requestFS(Cbjs3dutils.conf.divElm)){
 				Cbjs3dutils.getMotion();
 			}else{
 				Cbjs3dutils.displayError("Unable to fullscreen. Try with other browser.");
@@ -343,7 +385,7 @@ function: onResize
 */
 Cbjs3dutils.onResize = function(e){	
 	if(!Cbjs3dutils.isLandscape()){
-		fullscreen.exit();
+		Cbjs3dutils.exitFS();
 	}
 }
 
@@ -392,7 +434,7 @@ function: animateMove
 */
 Cbjs3dutils.animateMove = function(){
 
-	if(fullscreen.is()){
+	if(Cbjs3dutils.isFS()){
 
 		Cbjs3dutils.requestId = requestAnimation(Cbjs3dutils.animateMove);
 
@@ -453,6 +495,9 @@ Cbjs3dutils.motionLandscape = function(normCompass){
 }
 
 
+
+
+
 /**********************************************
 	CARDBOARD JAVASCRIPT 3D MAIN FUNCTION
 **********************************************/
@@ -472,7 +517,8 @@ function Cbjs3d(conf) {
 			Cbjs3dutils.start(conf);
 			return true;
 		}
-};
+}
+
 
 
 /********************************************************************
@@ -488,87 +534,46 @@ L.a = function(a){ return document.getElementById(a);}
 
 
 
-/**
-class: fullscreen
-	This class controls the fullscreen requests
-*/
-var fullscreen = fullscreen || {};
 
 /**
-var: tags
-	Tags of fullscreen request valid for the web browser.
+function: Cbjs3dutils.getFSTags (auto-called)
+	This function stores in Cbjs3dutils.fsTags the valid fullscreen API tags.
 */
-fullscreen.tags = {};
-
-/**
-function: request
-	This function request the fullscreen element. Returns false if
-	something is wrong.
-*/
-fullscreen.request = function(elm){
-	try {
-		elm[fullscreen.tags.request]();
-		return true;
-	}catch(e){
-		return false;
-	}
-}
-
-/**
-function: exit
-	This function exits from fullscreen element.
-*/
-fullscreen.exit = function(elm){
-	document[fullscreen.tags.exit]();
-}
-
-/**
-function: is
-	This function returns true if is fullscreen.
-*/
-fullscreen.is = function(elm){
-	return (document[fullscreen.tags.element]!=null);
-}
-
-/**
-function: getTags (auto-called)
-	This function stores in fullscreen.tags the valid tags.
-*/
-fullscreen.getTags = (function(){
+Cbjs3dutils.getFSTags = function(){
 	if(document.exitFullscreen){
-		fullscreen.tags["request"] = "requestFullscreen";
-		fullscreen.tags["exit"] = "exitFullscreen";
-		fullscreen.tags["element"] = "fullscreenElement";
+		Cbjs3dutils.fsTags["request"] = "requestFullscreen";
+		Cbjs3dutils.fsTags["exit"] = "exitFullscreen";
+		Cbjs3dutils.fsTags["element"] = "fullscreenElement";
 	}else if(document.webkitExitFullscreen){
-		fullscreen.tags["request"] = "webkitRequestFullscreen";
-		fullscreen.tags["exit"] = "webkitExitFullscreen";
-		fullscreen.tags["element"] = "webkitFullscreenElement";
+		Cbjs3dutils.fsTags["request"] = "webkitRequestFullscreen";
+		Cbjs3dutils.fsTags["exit"] = "webkitExitFullscreen";
+		Cbjs3dutils.fsTags["element"] = "webkitFullscreenElement";
 	}else if(document.webkitCancelFullScreen){
-		fullscreen.tags["request"] = "webkitRequestFullScreen";
-		fullscreen.tags["exit"] = "webkitCancelFullscreen";
-		fullscreen.tags["element"] = "webkitCurrentFullScreenElement";
+		Cbjs3dutils.fsTags["request"] = "webkitRequestFullScreen";
+		Cbjs3dutils.fsTags["exit"] = "webkitCancelFullscreen";
+		Cbjs3dutils.fsTags["element"] = "webkitCurrentFullScreenElement";
 	}else if(document.mozCancelFullScreen){
-		fullscreen.tags["request"] = "mozRequestFullscreen";
-		fullscreen.tags["exit"] = "mozCancelFullScreen";
-		fullscreen.tags["element"] = "mozFullScreenElement";
+		Cbjs3dutils.fsTags["request"] = "mozRequestFullscreen";
+		Cbjs3dutils.fsTags["exit"] = "mozCancelFullScreen";
+		Cbjs3dutils.fsTags["element"] = "mozFullScreenElement";
 	}else if(document.msExitFullscreen){
-		fullscreen.tags["request"] = "msRequestFullscreen";
-		fullscreen.tags["exit"] = "msExitFullscreen";
-		fullscreen.tags["element"] = "msFullscreenElement";
+		Cbjs3dutils.fsTags["request"] = "msRequestFullscreen";
+		Cbjs3dutils.fsTags["exit"] = "msExitFullscreen";
+		Cbjs3dutils.fsTags["element"] = "msFullscreenElement";
 	}else{
 		//Error: fullscreen API does not exit!
-		fullscreen.tags = {};
+		Cbjs3dutils.fsTags = {};
 	}
 	
 
-})();
-
+};
 
 /**
 function: anonymous (auto-called)
 	This function add the event listener for device orientation event.
 */
 (function(){
+	Cbjs3dutils.getFSTags();
 	if(window.DeviceOrientationEvent){
 		window.addEventListener("deviceorientation", function(event) { Cbjs3dutils.requestMove(event); }, false);
 	}
