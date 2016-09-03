@@ -329,7 +329,7 @@
 		img.onload = function(){
 			var width = Math.round(img.width*0.1);
 			if(width == 0 || img.width < img.height){ Cbjs3dutils.displayError("Landscape not valid");}else{
-				console.log(img.width);
+				//DEBUG:console.log(img.width);
 				conf.divElmL.style.backgroundImage = "url('"+img.src+"')";
 				conf.divElmL.style.backgroundPosition = (img.width*0.48)+"px 0px";
 				conf.divElmL.style.backgroundSize = "auto 100%";
@@ -358,7 +358,6 @@
 			if(Cbjs3dutils.conf.type=="landscape"){
 				Cbjs3dutils.imgFactor = Cbjs3dutils.conf.img.width/Cbjs3dutils.conf.img.height*screen.height/2;
 			}
-			document.location.href="#bai";
 			Cbjs3dutils.toggleFullscreen();
 		}
 	}
@@ -430,7 +429,7 @@
 		var _err = document.createElement("div");
 
 		if(document.body.querySelector("#_err_display") !== null){
-			try {document.body.removeChild(_err);}catch(e){ console.log("Err removing _err"+e);};
+			try {document.body.removeChild(_err);}catch(e){ /*DEBUGconsole.log("Err removing _err"+e);*/};
 		}
 
 		_err.id = "_err_display";
