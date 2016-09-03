@@ -488,12 +488,6 @@ L.a = function(a){ return document.getElementById(a);}
 
 
 
-
-/**
-	THIS PART OF CODE IS BASED ON https://github.com/sindresorhus/screenfull.js
-	LICENSED BY MIT License.
-*/
-
 /**
 class: fullscreen
 	This class controls the fullscreen requests
@@ -541,48 +535,31 @@ function: getTags (auto-called)
 	This function stores in fullscreen.tags the valid tags.
 */
 fullscreen.getTags = (function(){
-
-	var tags = [
-		//Global full screen tags / FULL SCREEN TAGS WHICH WILL BE USED
-		[
-			'requestFullscreen',
-			'exitFullscreen',
-			'fullscreenElement'
-		],
-		//WEBKITS
-		[
-			'webkitRequestFullscreen',
-			'webkitExitFullscreen',
-			'webkitFullscreenElement'
-
-		],
-		[
-			'webkitRequestFullScreen',
-			'webkitCancelFullScreen',
-			'webkitCurrentFullScreenElement'
-
-		],
-		//Gecko
-		[
-			'mozRequestFullScreen',
-			'mozCancelFullScreen',
-			'mozFullScreenElement'
-		],
-		//IE
-		[
-			'msRequestFullscreen',
-			'msExitFullscreen',
-			'msFullscreenElement'
-		]
-	];
-
-	for (var i = 0; i < tags.length; i++) {
-		if ( tags[i][1] in document) {
-			fullscreen.tags["request"] = tags[i][0];
-			fullscreen.tags["exit"] = tags[i][1];
-			fullscreen.tags["element"] = tags[i][2];
-		}
+	if(document.exitFullscreen){
+		fullscreen.tags["request"] = "requestFullscreen";
+		fullscreen.tags["exit"] = "exitFullscreen";
+		fullscreen.tags["element"] = "fullscreenElement";
+	}else if(document.webkitExitFullscreen){
+		fullscreen.tags["request"] = "webkitRequestFullscreen";
+		fullscreen.tags["exit"] = "webkitExitFullscreen";
+		fullscreen.tags["element"] = "webkitFullscreenElement";
+	}else if(document.webkitCancelFullScreen){
+		fullscreen.tags["request"] = "webkitRequestFullScreen";
+		fullscreen.tags["exit"] = "webkitCancelFullscreen";
+		fullscreen.tags["element"] = "webkitCurrentFullScreenElement";
+	}else if(document.mozCancelFullScreen){
+		fullscreen.tags["request"] = "mozRequestFullscreen";
+		fullscreen.tags["exit"] = "mozCancelFullScreen";
+		fullscreen.tags["element"] = "mozFullScreenElement";
+	}else if(document.msExitFullscreen){
+		fullscreen.tags["request"] = "msRequestFullscreen";
+		fullscreen.tags["exit"] = "msExitFullscreen";
+		fullscreen.tags["element"] = "msFullscreenElement";
+	}else{
+		//Error: fullscreen API does not exit!
+		fullscreen.tags = {};
 	}
+	
 
 })();
 
